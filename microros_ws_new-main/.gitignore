@@ -1,0 +1,9 @@
+build/
+install/
+log/
+*.pyc
+.DS_Store
+colcon/
+ros2_ws/
+src/build/
+src/micro_ros_agent/
