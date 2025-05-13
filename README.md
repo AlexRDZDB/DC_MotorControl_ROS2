@@ -9,4 +9,4 @@ This project contains ROS2 nodes meant for communicating and interacting with an
 - Create a PID controller that takes sensor data and a setpoint and controls the speed to reach specified setpoint
 
 ## Package Description
-
+### **`control_node`**
