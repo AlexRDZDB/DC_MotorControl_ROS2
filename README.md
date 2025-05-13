@@ -2,6 +2,11 @@
 
 This project provides a ROS2-based framework for controlling the rotational velocity of a JGA25-371 DC motor using a closed-loop PID controller. The system integrates an ESP32 microcontroller with ROS2 via the Micro-ROS library to create a responsive and modular control system suitable for embedded robotics applications.
 
+![ROS2](https://img.shields.io/badge/ROS2-Humble-blue)
+![Micro-ROS](https://img.shields.io/badge/Micro--ROS-enabled-green)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+
 ---
 
 ## 🚀 Project Objectives
@@ -13,11 +18,34 @@ This project provides a ROS2-based framework for controlling the rotational velo
 - **Waveform Testing**: Evaluate controller response to step, sine, and square wave input profiles.
 
 ---
+## ⚡ Quick Start
+
+1. Connect your ESP32 to your host machine and ensure the Micro-ROS agent is running:
+
+    ```bash
+    ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
+    ```
+
+2. Build the ROS 2 workspace:
+
+    ```bash
+    colcon build --packages-select control_node input_node
+    source install/setup.bash
+    ```
+
+3. Launch the system:
+
+    ```bash
+    ros2 launch control_node controller.launch.py
+    ```
+
+---
 
 ## Project Demonstration
 
 ![Motor Velocity Response](assets/demo.gif)
 
+---
 
 ## 📦 Package Description
 
@@ -61,6 +89,8 @@ This ROS2 node generates dynamic setpoints for testing controller performance. I
 - ESP32 with encoder interface and PWM output
 - `rclpy`, `std_msgs`
 
+---
+
 ## Running the Program
 
 To launch the velocity control system, use the following ROS 2 launch command from your workspace root (after building and sourcing your environment):
@@ -91,3 +121,20 @@ If no parameter files are provided, the program will use the hardcoded default v
   - If you've made changes or added new files, rebuild with:
 
   - `colcon build --packages-select control_node input_node`
+
+
+---
+## 🔧 PID Tuning Guide
+
+Parameters (defined in `controller_params.yaml`):
+- `kp`: Proportional gain
+- `ki`: Integral gain
+- `kd`: Derivative gain
+
+Use `rqt_plot` or `ros2 topic echo` to monitor `/motor_output` vs `/set_point`.
+
+Recommended procedure:
+1. Start with `kp` only; increase until stable tracking
+2. Add `ki` to reduce steady-state error
+3. Introduce `kd` if overshoot or oscillation occurs
+
