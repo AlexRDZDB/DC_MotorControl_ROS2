@@ -55,3 +55,34 @@ This ROS2 node generates dynamic setpoints for testing controller performance. I
 - [micro-ROS Agent](https://micro.ros.org/docs/tutorials/core/first_application_linux/)
 - ESP32 with encoder interface and PWM output
 - `rclpy`, `std_msgs`
+
+## Running the Program
+
+To launch the velocity control system, use the following ROS 2 launch command from your workspace root (after building and sourcing your environment):
+
+```bash
+ros2 launch control_node controller.launch.py
+```
+This will start both the controller node and the input node using their default parameters.
+Optional: Provide Custom Parameter Files
+
+You can optionally provide custom parameter files for each node by specifying them as launch arguments:
+
+```bash
+ros2 launch control_node controller.launch.py \
+  controller_params_file:=/path/to/controller_params.yaml \
+  input_params_file:=/path/to/input_params.yaml
+```
+- controller_params_file: Path to the YAML file containing PID controller and motor parameters.
+
+- input_params_file: Path to the YAML file defining the setpoint signal parameters.
+
+If no parameter files are provided, the program will use the hardcoded default values within each node.
+
+- 🛠 Tip: Make sure you've sourced your ROS 2 workspace before launching:
+  - `source install/setup.bash`
+
+- 🧱 Build Reminder:
+  - If you've made changes or added new files, rebuild with:
+
+  - `colcon build --packages-select control_node input_node`
