@@ -7,20 +7,30 @@ class InputNode(Node):
     def __init__(self):
         super().__init__('input_node')
 
-        # **Publicador del setpoint**
+        # Setpoint Publisher
         self.publisher_ = self.create_publisher(Float32, '/set_point', 10)
 
-        # **Parámetros de la señal**
-        self.signal_type = "step"
-        self.set_point = -10 # Valor de referencia
+        # Node Parameters
+        
+        
+        # Declare signal generator parameters
+        self.declare_parameter('type', 'step')
+        self.declare_parameter('set_point', -10.0)
+        self.declare_parameter('amplitude', 15.0)
+        self.declare_parameter('frequency', 0.05)
 
-        self.amplitude = 15.0  # Amplitud de la señal representa radianes por segundos
-        self.frequency = 0.05  # Frecuencia en Hz (solo para seno y cuadrada)
+        # Retrieve parameters
+        self.signal_type = self.get_parameter('type').get_parameter_value().string_value
+        self.set_point = self.get_parameter('set_point').get_parameter_value().double_value
+        self.amplitude = self.get_parameter('amplitude').get_parameter_value().double_value
+        self.frequency = self.get_parameter('frequency').get_parameter_value().double_value
 
-        # **Timer para publicar cada 0.1s**
+        # Timer to update setpoint
         self.timer = self.create_timer(0.1, self.publish_signal)
-        self.time = 0.0  # Contador de tiempo
-        self.get_logger().info(f'Generando señal {self.signal_type} con amplitud {self.amplitude} y frecuencia {self.frequency} Hz')
+       
+        self.time = 0.0  # Time Counter
+        self.get_logger().info(f'Generating a: {self.signal_type} with amplitude: {self.amplitude} and frequency: {self.frequency} Hz')
+
 
     def publish_signal(self):
         msg = Float32()
