@@ -14,6 +14,11 @@ This project provides a ROS2-based framework for controlling the rotational velo
 
 ---
 
+## Project Demonstration
+
+![Motor Velocity Response](assets/demo.gif)
+
+
 ## 📦 Package Description
 
 ### `control_node`
